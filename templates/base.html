@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Exam Seating Planner{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>🎓 IESP <small style="font-size: 0.6em; opacity: 0.7;">v2.0</small></h2>
+            </div>
+
+            <nav class="nav-links">
+                <a href="/" class="nav-item">📊 Dashboard</a>
+
+                <div
+                    style="margin: 1rem 0 0.5rem 0; font-size: 0.8rem; text-transform: uppercase; color: #888; letter-spacing: 0.5px;">
+                    Exam Management</div>
+                <a href="/wizard/start" class="nav-item">⚡ Conduct Exam</a>
+
+                <div
+                    style="margin: 1rem 0 0.5rem 0; font-size: 0.8rem; text-transform: uppercase; color: #888; letter-spacing: 0.5px;">
+                    Administration</div>
+                <a href="/rooms" class="nav-item">🏫 Rooms</a>
+                <a href="/subjects" class="nav-item">📚 Subjects</a>
+                <a href="/students" class="nav-item">👥 Students</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <div class="container">
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <ul class="flash-messages">
+                    {% for m in messages %}
+                    <li class="flash-message">{{ m }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                {% endwith %}
+
+                {% block content %}{% endblock %}
+            </div>
+
+            <!-- Footer removed as per request -->
+            <!-- Developed by devai.co.in -->
+
+        </main>
+    </div>
+
+    <script>
+        // Simple script to highlight active link
+        const currentPath = window.location.pathname;
+        const links = document.querySelectorAll('.nav-item');
+        links.forEach(link => {
+            if (link.getAttribute('href') === currentPath) {
+                link.classList.add('active');
+            }
+        });
+    </script>
+</body>
+
+</html>
+<!-- Developed by: devai.co.in -->

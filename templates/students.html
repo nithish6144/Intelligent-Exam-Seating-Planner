@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h2>Manage Student Batches (Series)</h2>
+
+    <div style="margin-bottom: 2rem; background: var(--secondary-color); padding: 1rem; border-radius: 8px;">
+        <h3>Add New Series</h3>
+        <p style="font-size: 0.9rem; color: #666;">
+            Enter the start and end roll numbers. The system will auto-generate all students in between.<br>
+            Example: 21881A6101 to 21881A6160
+        </p>
+        <form method="post" action="/students/add"
+            style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+            <div>
+                <label>Branch</label>
+                <input type="text" name="branch" placeholder="e.g. CSE" required>
+            </div>
+            <div>
+                <label>Year (1-4)</label>
+                <input type="number" name="year" min="1" max="4" required>
+            </div>
+            <div><!-- Spacer --></div>
+
+            <div>
+                <label>Start Roll No</label>
+                <input type="text" name="start" placeholder="21881A6101" required>
+            </div>
+            <div>
+                <label>End Roll No</label>
+                <input type="text" name="end" placeholder="21881A6160" required>
+            </div>
+            <div style="display: flex; align-items: flex-end;">
+                <button type="submit" class="btn">Add Series</button>
+            </div>
+        </form>
+    </div>
+
+    <h3>Existing Batches</h3>
+    {% if series %}
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr style="background: #e1e1e1;">
+                <th style="padding: 1rem; text-align: left;">Branch</th>
+                <th style="padding: 1rem; text-align: left;">Year</th>
+                <th style="padding: 1rem; text-align: left;">Range</th>
+                <!-- <th style="padding: 1rem; text-align: left;">Count</th> -->
+                <th style="padding: 1rem; text-align: right;">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in series %}
+            <tr style="border-bottom: 1px solid #eee;">
+                <td style="padding: 1rem;">{{ s.branch }}</td>
+                <td style="padding: 1rem;">{{ s.year }}</td>
+                <td style="padding: 1rem;">{{ s.start }} — {{ s.end }}</td>
+                <!-- <td style="padding: 1rem;">?</td> -->
+                <td style="padding: 1rem; text-align: right;">
+                    <form method="post" action="/students/delete/{{ s.id }}" style="display: inline;">
+                        <button type="submit"
+                            style="color: red; border: none; background: none; cursor: pointer; font-weight: bold;">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No student batches configured.</p>
+    {% endif %}
+
+    <div style="margin-top: 2rem;">
+        <a href="/" class="btn btn-secondary">← Back to Home</a>
+    </div>
+</div>
+{% endblock %}
+<!-- Developed by: devai.co.in -->

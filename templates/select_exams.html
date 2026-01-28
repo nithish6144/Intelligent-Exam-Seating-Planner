@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h2>Step 2: Assign Exams</h2>
+    <form method="post" action="/generate">
+        <div class="checkbox-group" style="grid-template-columns: 1fr;">
+            {% for br in branches %}
+            <div style="background: var(--secondary-color); padding: 1rem; border-radius: 8px;">
+                <label style="margin-bottom: 0.5rem;">{{ br }} Exam:</label>
+                <select name="exam_{{ br }}">
+                    {% for ex in exams %}
+                    <option value="{{ ex }}">{{ ex }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            {% endfor %}
+        </div>
+
+        <input type="hidden" name="students_raw" value="{{ students_raw }}">
+        <input type="hidden" name="num_rooms" value="{{ num_rooms }}">
+        <input type="hidden" name="rows" value="{{ rows }}">
+        <input type="hidden" name="cols" value="{{ cols }}">
+        <input type="hidden" name="selected_rooms" value="{{ selected_rooms }}">
+
+        <br>
+        <button type="submit" class="btn">Generate Seating Arrangement</button>
+    </form>
+</div>
+{% endblock %}
+<!-- Developed by: devai.co.in -->

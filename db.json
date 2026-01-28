@@ -1,0 +1,22 @@
+{
+    "rooms": [],
+    "subjects": [
+        "Maths I",
+        "Physics",
+        "Chemistry",
+        "C Programming",
+        "Data Structures",
+        "DLD",
+        "Python",
+        "Mechanics",
+        "DBMS",
+        "Operating Systems",
+        "Computer Networks",
+        "TOC",
+        "AI",
+        "ML",
+        "Cloud Computing",
+        "Cyber Security"
+    ],
+    "student_series": []
+}

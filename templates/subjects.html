@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h2>Manage Subjects</h2>
+
+    <div style="margin-bottom: 2rem; background: var(--secondary-color); padding: 1rem; border-radius: 8px;">
+        <h3>Add New Subject</h3>
+        <form method="post" action="/subjects/add" style="display: flex; gap: 1rem; align-items: flex-end;">
+            <div style="flex: 3;">
+                <label>Subject Name</label>
+                <input type="text" name="name" placeholder="e.g. Database Management Systems" required>
+            </div>
+            <button type="submit" class="btn" style="flex: 1;">Add</button>
+        </form>
+    </div>
+
+    <h3>Existing Subjects</h3>
+    {% if subjects %}
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem;">
+        {% for sub in subjects %}
+        <div
+            style="background: white; padding: 1rem; border: 1px solid #eee; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+            <span>{{ sub }}</span>
+            <form method="post" action="/subjects/delete/{{ sub }}" style="margin: 0;">
+                <button type="submit" style="color: red; border: none; background: none; cursor: pointer;">✕</button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>No subjects configured.</p>
+    {% endif %}
+
+    <div style="margin-top: 2rem;">
+        <a href="/" class="btn btn-secondary">← Back to Home</a>
+    </div>
+</div>
+{% endblock %}
+<!-- Developed by: devai.co.in -->

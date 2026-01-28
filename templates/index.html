@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h2>Step 1: Student Data</h2>
+    <form method="post">
+        <label for="students_text">Enter Students (Roll, Branch, [Year])</label>
+        <p style="font-size: 0.9rem; color: #666; margin-top: -0.5rem; margin-bottom: 1rem;">
+            Format: ROLL,BRANCH (or ROLL,BRANCH,YEAR)<br>
+            Example: CSE01,CSE
+        </p>
+        <textarea name="students_text" id="students_text" placeholder="CSE01,CSE
+ECE01,ECE
+ME01,ME
+IT01,IT"></textarea>
+
+        <br><br>
+
+        <h3>Select Rooms</h3>
+        <p>Room configuration (6 × 4)</p>
+
+        <div class="checkbox-group">
+            <label class="checkbox-item">
+                <input type="checkbox" name="room_1" checked> Room 1
+            </label>
+            <label class="checkbox-item">
+                <input type="checkbox" name="room_2"> Room 2
+            </label>
+            <label class="checkbox-item">
+                <input type="checkbox" name="room_3"> Room 3
+            </label>
+            <label class="checkbox-item">
+                <input type="checkbox" name="room_4"> Room 4
+            </label>
+            <label class="checkbox-item">
+                <input type="checkbox" name="room_5"> Room 5
+            </label>
+        </div>
+
+        <input type="hidden" name="rows" value="6">
+        <input type="hidden" name="cols" value="4">
+
+        <button type="submit" class="btn">Next → Select Exams</button>
+    </form>
+</div>
+{% endblock %}
+<!-- Developed by: devai.co.in -->

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h2>Run Exam Setup - Step 1/3</h2>
+    <p>Select the Years participating in this exam.</p>
+
+    <form method="post" action="/wizard/step2">
+        <label>Exam Name</label>
+        <input type="text" name="exam_name" placeholder="e.g. CAT-1 Morning Session" required>
+        <br>
+
+        <label>Select Years:</label>
+        <div class="checkbox-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            {% for year in [1, 2, 3, 4] %}
+            <label class="checkbox-item" style="align-items: flex-start; padding: 1rem;">
+                <input type="checkbox" name="years" value="{{ year }}" style="margin-top: 0.3rem;">
+                <div>
+                    <strong style="font-size: 1.1rem;">Year {{ year }}</strong>
+                    <div style="margin-top: 0.5rem; font-size: 0.85rem; color: #666;">
+                        {% if years_data[year] %}
+                        <span style="color: green;">✓ Available:</span> {{ years_data[year]|join(', ') }}
+                        {% else %}
+                        <span style="color: red;">⚠ No students found</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </label>
+            {% endfor %}
+        </div>
+
+        <div style="margin-top: 1rem; text-align: right; font-size: 0.9rem;">
+            Missing a branch? <a href="/students">Manage Students</a> to add them.
+        </div>
+
+        <button type="submit" class="btn" style="margin-top: 1.5rem;">Next → Map Subjects</button>
+    </form>
+</div>
+{% endblock %}
+<!-- Developed by: devai.co.in -->

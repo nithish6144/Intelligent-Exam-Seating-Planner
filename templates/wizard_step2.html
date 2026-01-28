@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h2>Run Exam Setup - Step 2/3</h2>
+    <p>Assign subjects to each Branch participating in the selected years.</p>
+
+    <div style="background: #e8f0fe; padding: 1rem; margin-bottom: 1rem; border-radius: 8px;">
+        <strong>Exam Name:</strong> {{ exam_name }}
+    </div>
+
+    <form method="post" action="/wizard/step3">
+        <input type="hidden" name="exam_name" value="{{ exam_name }}">
+        <!-- Pass selected years as comma separated string -->
+        <input type="hidden" name="selected_years" value="{{ selected_years|join(',') }}">
+
+        {% for year in selected_years %}
+        <h3>Year {{ year }}</h3>
+        <div class="checkbox-group" style="grid-template-columns: 1fr;">
+            {% for br in branches_by_year[year] %}
+            <div style="background: var(--secondary-color); padding: 1rem; border-radius: 8px;">
+                <label>{{ br }} Subject:</label>
+                <select name="subject_{{ year }}_{{ br }}">
+                    <option value="" disabled selected>-- Select Subject --</option>
+                    {% for sub in all_subjects %}
+                    <option value="{{ sub }}">{{ sub }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+        <button type="submit" class="btn">Next → Select Rooms</button>
+    </form>
+</div>
+{% endblock %}
+<!-- Developed by: devai.co.in -->

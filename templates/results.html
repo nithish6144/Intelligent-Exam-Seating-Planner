@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h2>Seating Generated Successfully!</h2>
+
+    {% if result %}
+
+    {% if result.assigned < result.total %} <div
+        style="background: #fee2e2; color: #b91c1c; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; border: 2px solid #ef4444;">
+        <h3 style="margin-top: 0;">⚠️ Critical Warning</h3>
+        <p><strong>{{ result.total - result.assigned }} students were NOT assigned seats.</strong></p>
+        <p>This usually happens if selected rooms didn't have enough capacity or if room layouts prevented efficient
+            placement (e.g. single-branch checkerboard).</p>
+        <p>Please go back and select more rooms or adjust your configuration.</p>
+</div>
+{% endif %}
+
+<div class="stats">
+    <div>Total Students: {{ result.total }}</div>
+    <div>Assigned: {{ result.assigned }}</div>
+</div>
+
+<div style="text-align: center; margin-bottom: 3rem;">
+    <a href="{{ url_for('download_zip') }}" class="btn"
+        style="padding: 1rem 2rem; background: #27ae60; margin-right: 1rem;">⬇ Download All PDFs (ZIP)</a>
+    <a href="{{ url_for('download_assignments') }}" class="btn btn-secondary">Download Master CSV</a>
+</div>
+
+<div class="room-grid">
+    {% for room_name in result.rooms %}
+    <div class="room-card">
+        <div class="room-actions" style="background: #f8f9fa; border-bottom: 1px solid #eee;">
+            <h3>{{ room_name }}</h3>
+        </div>
+        <div style="padding: 2rem; text-align: center;">
+            <div style="font-size: 3rem;">📄</div>
+            <p>Seating Plan Ready</p>
+            <a href="{{ url_for('static', filename=room_name.replace(' ', '_') + '.pdf') }}" class="btn"
+                target="_blank">Download PDF</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% else %}
+<p>No data found.</p>
+{% endif %}
+
+<div style="margin-top: 3rem; text-align: center;">
+    <a href="/" class="btn btn-secondary">Start Over</a>
+</div>
+</div>
+{% endblock %}
+<!-- Developed by: devai.co.in -->

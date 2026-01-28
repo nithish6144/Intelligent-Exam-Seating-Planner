@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <!-- Sticky Capacity Header -->
+    <div
+        style="position: sticky; top: 0; background: white; z-index: 100; border-bottom: 2px solid #eee; padding-bottom: 1rem; margin-bottom: 1rem;">
+        <h2>Run Exam Setup - Step 3/3</h2>
+        <div style="display: flex; gap: 2rem; align-items: center; font-size: 1.1rem;">
+            <div>
+                Target Students: <strong>{{ total_students_count }}</strong>
+            </div>
+            <div id="capacity-indicator"
+                style="padding: 0.5rem 1rem; border-radius: 8px; font-weight: bold; background: #e1e1e1;">
+                Selected Capacity: <span id="current-capacity">0</span>
+            </div>
+        </div>
+        {% if error_message %}
+        <div style="margin-top: 0.5rem; color: #e74c3c; font-weight: bold;">
+            {{ error_message }}
+        </div>
+        {% endif %}
+    </div>
+
+    <p>Select the Rooms to use for this exam.</p>
+
+    <div style="background: #e8f0fe; padding: 1rem; margin-bottom: 1rem; border-radius: 8px;">
+        <strong>Exam Name:</strong> {{ exam_name }}
+    </div>
+
+    <form method="post" action="/generate_v2">
+        <input type="hidden" name="exam_name" value="{{ exam_name }}">
+        <input type="hidden" name="selected_years" value="{{ selected_years }}">
+        <input type="hidden" name="subject_map" value='{{ subject_map_json }}'>
+
+        <label>Select Rooms:</label>
+        <div class="checkbox-group">
+            {% for r in all_rooms %}
+            {% set cap = r.rows * r.cols %}
+            <label class="checkbox-item room-item" data-capacity="{{ cap }}">
+                <input type="checkbox" name="room_ids" value="{{ r.id }}" class="room-checkbox">
+                <div>
+                    <strong>{{ r.name }}</strong><br>
+                    <small>{{ r.rows }} x {{ r.cols }} (Cap: {{ cap }})</small>
+                </div>
+            </label>
+            {% endfor %}
+        </div>
+
+        <button type="submit" class="btn" id="generate-btn">Generate Seating Arrangements</button>
+    </form>
+</div>
+
+<script>
+    const checkboxes = document.querySelectorAll('.room-checkbox');
+    const capacityDisplay = document.getElementById('current-capacity');
+    const indicator = document.getElementById('capacity-indicator');
+    const target = {{ total_students_count }};
+    const efficiencyFactor = {{ efficiency_factor }}; // 0.5 or 1.0
+    const generateBtn = document.getElementById('generate-btn');
+
+    function updateCapacity() {
+        let rawTotal = 0;
+        checkboxes.forEach(cb => {
+            if (cb.checked) {
+                const item = cb.closest('.room-item');
+                rawTotal += parseInt(item.getAttribute('data-capacity'));
+            }
+        });
+
+        // Apply Efficiency (Checkerboard for single branch)
+        const effectiveTotal = Math.floor(rawTotal * efficiencyFactor);
+
+        // Update Text
+        if (efficiencyFactor < 1.0) {
+            capacityDisplay.innerText = `${effectiveTotal} (Effective) / ${rawTotal} (Raw)`;
+        } else {
+            capacityDisplay.innerText = effectiveTotal;
+        }
+
+        // Visual Feedback (Compare Effective vs Target)
+        if (effectiveTotal < target) {
+            indicator.style.background = '#fadbd8'; // Red-ish
+            indicator.style.color = '#c0392b';
+            indicator.innerHTML = `Selected Capacity: <strong>${effectiveTotal}</strong> (Need ${target - effectiveTotal} more)`;
+        } else if (effectiveTotal > target + (target * 0.5)) {
+            indicator.style.background = '#fdebd0'; // Orange
+            indicator.style.color = '#d35400';
+            indicator.innerHTML = `Selected Capacity: <strong>${effectiveTotal}</strong> (Excessive)`;
+        } else {
+            indicator.style.background = '#d4efdf'; // Green
+            indicator.style.color = '#27ae60';
+            indicator.innerHTML = `Selected Capacity: <strong>${effectiveTotal}</strong> (Good)`;
+        }
+    }
+
+    checkboxes.forEach(cb => cb.addEventListener('change', updateCapacity));
+
+    // Init
+    updateCapacity();
+</script>
+{% endblock %}
+<!-- Developed by: devai.co.in -->
