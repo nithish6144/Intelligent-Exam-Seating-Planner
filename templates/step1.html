@@ -1,0 +1,761 @@
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #f6faff; /* very very light blue */
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #1f2937;
+}
+
+/* ===== TOP HEADER ===== */
+.top-header {
+
+  top: 0;
+  z-index: 1000;
+
+  background: rgba(255, 255, 255, 0.6); /* transparent */
+  backdrop-filter: blur(10px);          /* 🔥 main magic */
+  -webkit-backdrop-filter: blur(10px);  /* for Safari */
+
+  border-bottom: 1px solid rgba(200, 220, 255, 0.5);
+}
+.header-center {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  margin: auto;          /* 🔥 centers whole block */
+  text-align: center;
+}
+
+.header-center div {
+  text-align: center;
+}
+
+.logo {
+  height: 85px;
+  width: auto;
+}
+h2 {
+  font-size: 35px;
+  font-weight: 700;
+  color: #2563eb;
+}
+
+.system-name {
+  font-size: 14px;
+  color: #475569;
+  margin-top: 4px;
+}
+
+.faculty-btn {
+  position: relative;
+  right: 20px;   /* tweak this value */
+}
+/* ===== MAIN LAYOUT ===== */
+.page {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  max-width: 1400px;
+  margin: auto;
+}
+
+.right,.left {
+  flex: 1;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 18px;
+  border: 1px solid #e5efff;
+}
+/* ===== SECTION HEADINGS ===== */
+h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #2563eb;
+}
+
+/* ===== EXAM TYPE BOX ===== */
+.exam-box {
+  background: #f8fbff;
+  border: 1px solid #dbeafe;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+/* ===== DASHBOARD ===== */
+.dashboard {
+  background: #eef5ff;
+  border: 1px solid #dbeafe;
+  padding: 14px;
+  border-radius: 10px;
+  margin-bottom: 18px;
+}
+
+.dashboard p {
+  margin: 6px 0;
+  font-size: 14px;
+}
+
+.dashboard span {
+  font-weight: 700;
+}
+
+#roomWarning {
+  margin-top: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ===== FILE UPLOAD ===== */
+.upload-box {
+  border: 2px dashed #2563eb;
+  border-radius: 12px;
+  padding: 25px;
+  text-align: center;
+  background: #f8fbff;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.upload-box.dragover {
+  background: #e0ecff;
+  border-color: #1d4ed8;
+}
+
+.upload-box button {
+  margin-top: 10px;
+}
+
+#fileList {
+  margin-top: 10px;
+  list-style: none;
+  padding: 0;
+}
+
+#fileList li {
+  background: #eef5ff;
+  margin: 5px 0;
+  padding: 6px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+/* ===== ROOM ROWS ===== */
+#roomsContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 rooms per row */
+  gap: 10px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+.roomRow {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 12px;
+  border: 1px solid #e5efff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.roomRow:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+}
+
+.roomHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+
+.roomInputs {
+  display: flex;
+  gap: 10px;
+}
+.roomRow input[type="text"],
+.roomRow input[type="number"] {
+  width: 60px;
+  padding: 4px;
+  border-radius: 6px;
+  border: 1px solid #c7dbff;
+  font-size: 12px;
+}
+
+.roomsScroll {
+  overflow-y: auto;
+  height: 400px;  /* 🔥 THIS FIXES EVERYTHING */
+}
+.roomsScroll::-webkit-scrollbar {
+  width: 6px;
+}
+.roomsScroll::-webkit-scrollbar-thumb {
+  background: #2563eb;
+  border-radius: 10px;
+}
+.roomRow input[type="checkbox"] {
+  accent-color: #2563eb;
+}
+/* ===== BUTTONS ===== */
+button {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: background 0.2s ease;
+}
+
+button:hover {
+  background: #2563eb;
+}
+
+.add-room-btn {
+  margin-top: 10px;
+}
+
+.generate-btn {
+  width: 100%;
+  margin-top: 16px;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 8px;
+}
+
+.roomRow.selected {
+  border: 2px solid #2563eb;
+  background: #eef5ff;
+}
+
+#blocksContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.block {
+  border: 1px solid #dbeafe;
+  border-radius: 10px;
+  padding: 10px;
+  background: #f8fbff;
+  margin-bottom: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.block h3 {
+  margin-bottom: 10px;
+  width: 100%;
+  color: #2563eb;
+}
+
+.page {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  max-width: 1400px;
+  margin: auto;
+
+  flex-direction: row;   /* 🔥 FORCE HORIZONTAL */
+}
+
+
+</style>
+
+
+
+<div class="top-header" style="display:flex; align-items:center; justify-content:space-between;">
+    <div class="header-center">
+    <img src="{{ url_for('static', filename='logo.png') }}" class="logo">
+    <div>
+    <h2>VARDHAMAN COLLEGE OF ENGINEERING</h2>
+    <h4>An Autonomous Institution, Affiliated to JNTUH & Approved by AICTE</h4>
+    <h4>Accredited by NAAC with A++ Grade</h4>
+    <div class="system-name">Exam Seating Arrangement System</div>
+    </div>
+    </div>
+  <div class="faculty-btn">
+  <a href="/faculty" target="_blank">
+    <button>📧 Faculty Invigilation</button>
+  </a>
+  </div>
+
+</div>
+
+<div id="popupContainer"></div>
+
+<script>
+fetch("/popup")
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById("popupContainer").innerHTML = data;
+  });
+</script>
+
+
+<div class="page">
+
+  <!-- ========== LEFT SIDE ========== -->
+
+  <div class="left">
+    <div style="margin-bottom:14px;">
+  <b>Exam Type:</b><br>
+
+  <label style="margin-right:16px;">
+    <input type="radio" name="examType" value="mid" onchange="setExamType(this.value)">
+    Mid Exam
+  </label>
+  <br>
+  <label>
+    <input type="radio" name="examType" value="sem" onchange="setExamType(this.value)">
+    Semester End Exam
+  </label>
+
+  <!-- hidden input used by JS -->
+  <input type="hidden" id="examType" value="">
+</div>
+
+
+
+    <!-- Dashboard -->
+    <div class="dashboard">
+      <h3>📊 Dashboard</h3>
+      <p><b>CSV Files:</b> <span id="fileCount">0</span></p>
+      <p><b>Total Students:</b> <span id="csvCount">0</span></p>
+      <p><b>Total Seating Capacity:</b> <span id="totalCapacity">0</span></p>
+      <p><b>Rooms Required:</b> <span id="roomsRequired">0</span></p>
+      <p id="roomWarning" style="color:red; font-weight:bold;"></p>
+
+    </div>
+
+    <!-- CSV Upload -->
+  <div class="section">
+  <h3>📁 Upload Student CSV Files</h3>
+
+  <input type="file"
+         id="fileInput"
+         name="students_csv"
+         accept=".csv"
+         multiple>
+
+  <button type="button" onclick="addFile()">Add File</button>
+
+  <ul id="fileList"></ul>
+</div>
+</div>
+  
+  <!-- ========== RIGHT SIDE ========== -->
+  <div class="right">
+
+    <h3>🪑 Room Selection</h3>
+
+    <form method="post" action="/generate" enctype="multipart/form-data" id="mainForm">
+      <div id="hiddenFiles"></div>
+      <div class="roomsScroll">
+        <div id="blocksContainer">
+        <div class="block" id="block1"><h3>BLOCK 1</h3></div>
+        <div class="block" id="block2"><h3>BLOCK 2</h3></div>
+        <div class="block" id="block3"><h3>BLOCK 3</h3></div>
+        <div class="block" id="block4"><h3>BLOCK 4</h3></div>
+        <div class="block" id="block5"><h3>BLOCK 5</h3></div>
+      </div>
+      </div>
+
+      <button type="button" onclick="openPopup()">➕ Add Room</button>
+      <br><br>
+      <button type="submit" class="generate-btn">Generate Seating</button>
+    </form>
+
+  </div>
+
+</div>
+
+<script>
+
+const DEFAULT_ROOMS = [
+  { room_no: "1111", rows: 6, cols: 4 },
+  { room_no: "1112", rows: 6, cols: 4 },
+  { room_no: "1113", rows: 6, cols: 4 },
+  { room_no: "1114", rows: 6, cols: 4 },
+  { room_no: "1115", rows: 6, cols: 4 },
+  { room_no: "1116", rows: 6, cols: 4 },
+  { room_no: "1117", rows: 6, cols: 4 },
+  { room_no: "1118", rows: 6, cols: 4 },
+  { room_no: "1119", rows: 6, cols: 4 },
+  { room_no: "1120", rows: 6, cols: 4 },
+  { room_no: "1121", rows: 6, cols: 4 },
+  { room_no: "1122", rows: 6, cols: 4 },
+  { room_no: "1123", rows: 6, cols: 4 },
+  { room_no: "1124", rows: 6, cols: 4 },
+  { room_no: "1125", rows: 6, cols: 4 },
+  { room_no: "1126", rows: 6, cols: 4 },
+  { room_no: "1127", rows: 6, cols: 4 }, 
+  { room_no: "2002", rows: 6, cols: 4 },
+  { room_no: "2005", rows: 6, cols: 4 },
+  { room_no: "2102", rows: 6, cols: 4 },
+  { room_no: "2103", rows: 6, cols: 4 },
+  { room_no: "2104", rows: 6, cols: 4 },
+  { room_no: "2105", rows: 6, cols: 4 },
+  { room_no: "2106", rows: 6, cols: 4 },
+  { room_no: "2107", rows: 6, cols: 4 },
+  { room_no: "2108", rows: 6, cols: 4 },
+  { room_no: "3001", rows: 6, cols: 4 },
+  { room_no: "3002", rows: 6, cols: 4 },
+  { room_no: "3003", rows: 6, cols: 4 },
+  { room_no: "3004", rows: 6, cols: 4 },
+  { room_no: "3005", rows: 6, cols: 4 },
+  { room_no: "3006", rows: 6, cols: 4 },
+  { room_no: "3007", rows: 6, cols: 4 },
+  { room_no: "3008", rows: 6, cols: 4 },
+  { room_no: "5002", rows: 6, cols: 4 },
+  { room_no: "5003", rows: 6, cols: 4 },
+  { room_no: "5004", rows: 6, cols: 4 },
+  { room_no: "5005", rows: 6, cols: 4 },
+  { room_no: "5006", rows: 6, cols: 4 }, 
+  { room_no: "5102", rows: 6, cols: 4 },
+  { room_no: "5103", rows: 6, cols: 4 },
+  { room_no: "5104", rows: 6, cols: 4 },
+  { room_no: "5105", rows: 6, cols: 4 },
+  { room_no: "5106", rows: 6, cols: 4 },
+
+];
+function openPopup() {
+  document.getElementById("roomPopup").style.display = "flex";
+  const input = document.getElementById("popupRoomNo");
+  input.value = "";
+  input.focus();
+}
+
+function closePopup() {
+  document.getElementById("roomPopup").style.display = "none";
+}
+
+function confirmAddRoom() {
+  const roomNo = document.getElementById("popupRoomNo").value.trim();
+
+  if (!roomNo) {
+    alert("Enter room number");
+    return;
+  }
+
+  addRoom({ room_no: roomNo, rows: 6, cols: 4 });
+
+  closePopup();
+}
+
+
+
+// ================= CSV HANDLING =================
+let filesStore = [];
+
+function addFile() {
+    const input = document.getElementById("fileInput");
+
+    if (!input.files.length) {
+        alert("Choose a CSV file first");
+        return;
+    }
+
+    for (let file of input.files) {
+
+        // avoid duplicates
+        if (filesStore.some(f => f.name === file.name)) {
+            alert(file.name + " already added");
+            continue;
+        }
+
+        filesStore.push(file);
+
+        const li = document.createElement("li");
+        li.setAttribute("data-name", file.name);
+
+        li.innerHTML = `
+          ${file.name}
+          <button type="button" onclick="removeFile('${file.name}')">❌</button>
+        `;
+
+        document.getElementById("fileList").appendChild(li);
+    }
+
+    input.value = ""; // reset input
+    countStudents();
+}
+
+function removeFile(fileName) {
+    filesStore = filesStore.filter(f => f.name !== fileName);
+
+    document.querySelectorAll("#fileList li").forEach(li => {
+        if (li.getAttribute("data-name") === fileName) {
+            li.remove();
+        }
+    });
+
+    if (filesStore.length === 0) {
+        document.getElementById("csvCount").innerText = 0;
+        updateDashboard();
+    } else {
+        countStudents();
+    }
+}
+
+
+document.getElementById("mainForm").onsubmit = function () {
+    const container = document.getElementById("hiddenFiles");
+    container.innerHTML = "";
+
+    filesStore.forEach(file => {
+        const dt = new DataTransfer();
+        dt.items.add(file);
+
+        const input = document.createElement("input");
+        input.type = "file";
+        input.name = "students_csv";
+        input.files = dt.files;
+
+        container.appendChild(input);
+    });
+};
+
+function countStudents() {
+    let total = 0;
+    let done = 0;
+
+    filesStore.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = e => {
+            const lines = e.target.result.trim().split(/\r?\n/);
+            total += Math.max(lines.length - 1, 0);
+            done++;
+            if (done === filesStore.length) {
+                document.getElementById("csvCount").innerText = total;
+                updateDashboard();
+            }
+        };
+        reader.readAsText(file);
+    });
+}
+
+// ================= ROOM HANDLING =================
+let roomIndex = 0;
+function addRoom(room = null) {
+  const examType = document.getElementById("examType").value;
+
+  let defaultRows = 6;
+  let defaultCols = 4;
+
+  if (examType === "mid") {
+    defaultCols = 8;
+  } else if (examType === "sem") {
+    defaultCols = 4;
+  }
+
+  const data = room || { room_no: "", rows: defaultRows, cols: defaultCols };
+
+  const div = document.createElement("div");
+  div.className = "roomRow";
+
+  div.onclick = function () {
+  const checkbox = div.querySelector("input[type=checkbox]");
+  checkbox.checked = !checkbox.checked;
+
+  div.classList.toggle("selected");
+
+  updateDashboard();
+};
+
+  div.innerHTML = `
+    <input type="checkbox"
+           name="rooms[${roomIndex}][selected]"
+           style="display:none;"
+           onchange="updateDashboard()">
+
+    <div class="roomHeader">
+      <span>Room No:</span>
+      <input type="text"
+             name="rooms[${roomIndex}][room_no]"
+             value="${data.room_no}"
+             placeholder="1001"
+             style="font-weight:bold;">
+    </div>
+
+    <div class="roomInputs">
+      <div>
+        Rows:
+        <input type="number"
+               name="rooms[${roomIndex}][rows]"
+               value="${data.rows}"
+               min="1"
+               oninput="updateDashboard()">
+      </div>
+
+      <div>
+        Columns:
+        <input type="number"
+               name="rooms[${roomIndex}][cols]"
+               value="${data.cols}"
+               min="1"
+               oninput="updateDashboard()">
+      </div>
+    </div>
+  `;
+  div.querySelectorAll("input").forEach(input => {
+  input.onclick = (e) => e.stopPropagation();
+});
+
+  // 🔥 NOW decide block AFTER div created
+  const roomInput = div.querySelector('[name*="room_no"]');
+  let block = "1";
+
+  if (data.room_no) {
+  const block = data.room_no.toString()[0];
+  const blockDiv = document.getElementById(`block${block}`) || document.getElementById("block1");
+  blockDiv.appendChild(div);
+  } else {
+  document.getElementById("block1").appendChild(div);
+  }
+
+
+  // 🔥 move room if edited
+  roomInput.addEventListener("input", function () {
+  const value = this.value.trim();
+
+  if (!value) return;
+
+  const block = value[0];
+  const blockDiv = document.getElementById(`block${block}`) || document.getElementById("block1");
+
+  blockDiv.appendChild(div);
+});
+
+  roomIndex++;
+  updateDashboard();
+}
+
+
+
+
+
+
+
+// ================= DASHBOARD =================
+function updateDashboard() {
+    document.getElementById("fileCount").innerText = filesStore.length;
+
+    let totalCapacity = 0;
+    let selectedRooms = 0;
+
+    document.querySelectorAll(".roomRow").forEach(r => {
+        const cb = r.querySelector("input[type=checkbox]");
+        if (cb && cb.checked) {
+            selectedRooms++;
+            const nums = r.querySelectorAll("input[type=number]");
+            const rows = parseInt(nums[0].value || 0);
+            const cols = parseInt(nums[1].value || 0);
+            totalCapacity += rows * cols;
+        }
+    });
+
+    document.getElementById("totalCapacity").innerText = totalCapacity;
+
+    const students = parseInt(
+        document.getElementById("csvCount").innerText || 0
+    );
+
+    // 🔹 Rooms required is now INFORMATIONAL ONLY
+    let roomsRequired = 0;
+
+    if (students > 0) {
+      let capacities = [];
+
+      document.querySelectorAll(".roomRow").forEach(r => {
+        const nums = r.querySelectorAll("input[type=number]");
+        if (nums.length >= 2) {
+            const rows = parseInt(nums[0].value || 0);
+            const cols = parseInt(nums[1].value || 0);
+            const cap = rows * cols;
+            if (cap > 0) capacities.push(cap);
+        }
+    });
+
+    if (capacities.length > 0) {
+        const avgCapacity = capacities[0]; // since most rooms same layout
+        roomsRequired = Math.ceil(students / avgCapacity);
+    }
+    }
+
+    document.getElementById("roomsRequired").innerText = roomsRequired;
+
+    // 🔥 CAPACITY-BASED WARNING (CORRECT LOGIC)
+    const warning = document.getElementById("roomWarning");
+
+    if (students > 0 && totalCapacity < students) {
+        warning.innerText =
+            `⚠ Not enough seating capacity! ${students - totalCapacity} more seats needed.`;
+        warning.style.color = "#a40000";
+    } else {
+        warning.innerText = "";
+    }
+}
+
+
+window.onload = function () {
+  DEFAULT_ROOMS.forEach(room => addRoom(room));
+};
+
+
+function setExamType(type) {
+    document.getElementById("examType").value = type;
+    applyExamLayout(); // 🔥 trigger layout change
+}
+
+function applyExamLayout() {
+    const type = document.getElementById("examType").value;
+
+    let rows = 6;
+    let cols = 4;
+
+    if (type === "mid") {
+        cols = 8;   // 6x8
+    } else if (type === "sem") {
+        cols = 4;   // 6x4
+    } else {
+        return;
+    }
+
+    document.querySelectorAll(".roomRow").forEach(row => {
+        const nums = row.querySelectorAll("input[type=number]");
+        if (nums.length >= 2) {
+            nums[0].value = rows;
+            nums[1].value = cols;
+        }
+    });
+
+    updateDashboard(); // 🔥 CRITICAL
+}
+
+</script>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul style="color:red">
+      {% for m in messages %}
+        <li>{{ m }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}

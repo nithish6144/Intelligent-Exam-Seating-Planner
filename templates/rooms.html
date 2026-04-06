@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h2>Manage Rooms</h2>
+
+    <div style="margin-bottom: 2rem; background: var(--secondary-color); padding: 1rem; border-radius: 8px;">
+        <h3>Add New Room</h3>
+        <form method="post" action="/rooms/add" style="display: flex; gap: 1rem; align-items: flex-end;">
+            <div style="flex: 2;">
+                <label>Room Name</label>
+                <input type="text" name="name" placeholder="e.g. Hall 1" required>
+            </div>
+            <div style="flex: 1;">
+                <label>Rows</label>
+                <input type="number" name="rows" value="6" required
+                    style="width: 100%; padding: 0.8rem; border: 2px solid #e1e1e1; border-radius: 8px;">
+            </div>
+            <div style="flex: 1;">
+                <label>Cols</label>
+                <input type="number" name="cols" value="4" required
+                    style="width: 100%; padding: 0.8rem; border: 2px solid #e1e1e1; border-radius: 8px;">
+            </div>
+            <button type="submit" class="btn" style="flex: 1;">Add</button>
+        </form>
+    </div>
+
+    <h3>Existing Rooms</h3>
+    {% if rooms %}
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr style="background: #e1e1e1;">
+                <th style="padding: 1rem; text-align: left;">Name</th>
+                <th style="padding: 1rem; text-align: left;">Dimensions</th>
+                <th style="padding: 1rem; text-align: left;">Capacity</th>
+                <th style="padding: 1rem; text-align: right;">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in rooms %}
+            <tr style="border-bottom: 1px solid #eee;">
+                <td style="padding: 1rem;">{{ r.name }}</td>
+                <td style="padding: 1rem;">{{ r.rows }} × {{ r.cols }}</td>
+                <td style="padding: 1rem;">{{ r.rows * r.cols }}</td>
+                <td style="padding: 1rem; text-align: right;">
+                    <form method="post" action="/rooms/delete/{{ r.id }}" style="display: inline;">
+                        <button type="submit"
+                            style="color: red; border: none; background: none; cursor: pointer; font-weight: bold;">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No rooms configured.</p>
+    {% endif %}
+
+    <div style="margin-top: 2rem;">
+        <a href="/" class="btn btn-secondary">← Back to Home</a>
+    </div>
+</div>
+{% endblock %}
+<!-- Developed by: devai.co.in -->
