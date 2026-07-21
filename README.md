@@ -1,6 +1,6 @@
 ## 🚀 Live Demo
 
-**Try the application:** [Exam-branch-dashboard](https://intelligent-exam-seating-planner.vercel.app)
+**Try the application:** [Intelligent Exam Seating Planner](https://intelligent-exam-seating-planner.vercel.app)
 
 
 
